@@ -1,3 +1,30 @@
+from flask import Flask, request, jsonify, make_response
+import json
+import mysql.connector
+from groq import Groq
+from flask_cors import CORS
+
+
+app = Flask(__name__)
+CORS(app)
+
+received_data = {}
+
+def _build_cors_preflight_response():
+    response = make_response()
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Headers", "Content-Type")
+    response.headers.add("Access-Control-Allow-Methods", "POST")
+    return response
+
+def _build_cors_headers():
+    headers = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "POST"
+    }
+    return headers
+
 @app.route('/Bargain_API', methods=['POST', 'OPTIONS'])
 def Bargain_Function():
     if request.method == "OPTIONS":  # CORS preflight
